@@ -1,0 +1,17 @@
+{
+  "manifest_version": 2,
+
+  "name": "TradingView: Keep updating price in tab title in Extended Hours",
+  "description": "TradingView only updates the page/tab title with the latest price during regular market hours. This extension fixes that.",
+  "version": "0.1",
+
+  "content_scripts": [
+    {
+      "matches": ["https://*.tradingview.com/chart/*"],
+      "run_at": "document_idle",
+      "js": ["content-script.js"]
+    }
+  ],
+  "permissions": [
+  ]
+}
