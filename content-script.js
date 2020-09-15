@@ -1,12 +1,22 @@
 let lastPriceObserver;
 let putLastPriceInPageTitle = () => {
   if (!lastPriceObserver) {
-    let nodeToObserve = document.querySelector('[data-name="legend-series-item"] [class*="valueItem"]:nth-child(4) [class*="valueValue"]');
+    let ohlcTitleNodes = document.querySelectorAll('[data-name="legend-series-item"] [class*="valueItem"] [class*="valueTitle"]');
 
-    if (!nodeToObserve) {
+    if (!ohlcTitleNodes) {
       setTimeout(() => {
         putLastPriceInPageTitle();
       }, 1500);
+
+      return;
+    }
+
+    const cTitleNode = [...ohlcTitleNodes].find((elem) => elem.textContent === 'C');
+
+    if (!cTitleNode) {
+      setTimeout(() => {
+        putLastPriceInPageTitle();
+      }, 800);
 
       return;
     }
@@ -15,7 +25,7 @@ let putLastPriceInPageTitle = () => {
       document.title = `${document.title.split(' ')[0]} ${mutations[0].target.textContent}`;
     });
     lastPriceObserver.observe(
-      nodeToObserve,
+      cTitleNode.nextElementSibling,
       { childList: true, subtree: true, characterData: true }
     );
   }
